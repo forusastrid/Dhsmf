@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>login</title>
+</head>
+<body>
+   <form>
+    <h1>로그인</h1>
+    <div> email : <input type="email" id="signInEmail" /> </div>
+    <div> password : <input type="password" id="signInPassword" /> </div>
+    <button type="submit" id="signInButton">로그인 하기</button>
+    <button >회원가입 하러 가기</button>
+
+   </form>
+
+      <form>
+    <h1>회원가입</h1>
+    <div> email : <input type="email" id="signUpEmail" /> </div>
+    <div> password : <input type="password" id="signUpPassword" /> </div>
+    <button type="submit" id="signUpButton">회원가입 하기</button>
+    <button >로그인 하러 가기</button>
+
+   </form>
+   <script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-analytics.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyAxQ5gJ9aoCh7Y4OTxtktg99JFParg6DEg",
+    authDomain: "easyloginquzi.firebaseapp.com",
+    projectId: "easyloginquzi",
+    storageBucket: "easyloginquzi.firebasestorage.app",
+    messagingSenderId: "186226652357",
+    appId: "1:186226652357:web:98b98464f3a3eb4ea46cac",
+    measurementId: "G-5D20V4E3ZJ"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword  } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
+
+const auth = getAuth();
+
+document.getElementById('signUpButton').addEventListener('click', (event) => {
+    event.preventDefault()
+    const signUpEmail = document.getElementById('signUpEmail').value
+    const signUpPassword = document.getElementById('signUpPassword').value
+    createUserWithEmailAndPassword(auth, signUpEmail, signUpPassword)
+    .then((userCredential) => {
+        console.log(userCredential)
+        // Signed up 
+        const user = userCredential.user;
+        // ...
+    })
+    .catch((error) => {
+        console.log('error')
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // ..
+    });
+})
+
+ document.getElementById('signInButton').addEventListener('click', (event) => {
+    event.preventDefault()
+    const signUpEmail = document.getElementById('signUpEmail').value
+    const signInPassword = document.getElementById('signInPassword').value
+    signInWithEmailAndPassword(auth, signUpEmail, signInPassword)
+    .then((userCredential) => {
+        // Signed in 
+        console.log(userCredential)
+        const user = userCredential.user;
+        // ...
+    })
+    .catch((error) => {
+        console.log('로그인 실패')
+        const errorCode = error.code;
+        const errorMessage = error.message;
+    });
+ })
+
+  console.log('hello world')
+  console.log(app)
+  </script>
+</body>
+</html>
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>헌법 퀴즈</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f1f1f1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    #quiz-container {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 600px;
+    }
+    h2 {
+      margin-bottom: 20px;
+    }
+    button.option {
+      display: block;
+      width: 100%;
+      margin: 10px 0;
+      padding: 10px;
+      background: #eeeeee;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    button.option:hover {
+      background: #dcdcdc;
+    }
+    #next-btn {
+      margin-top: 20px;
+      padding: 10px 15px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div id="quiz-container">
+    <h2 id="question">문제가 여기에 표시됩니다.</h2>
+    <div id="options"></div>
+    <button id="next-btn">다음 문제</button>
+  </div>
+
+  <script>
+    const quizData = [
+      {
+        question: "대한민국의 헌법 제1조 제1항의 내용은?",
+        options: [
+          "대한민국은 민주공화국이다.",
+          "모든 국민은 법 앞에 평등하다.",
+          "국가는 국민의 생명과 재산을 보호해야 한다.",
+          "대한민국의 수도는 서울이다."
+        ],
+        answer: "대한민국은 민주공화국이다."
+      },
+      {
+        question: "대한민국의 주권은 누구에게 있는가?",
+        options: [
+          "대통령",
+          "국회",
+          "헌법재판소",
+          "국민"
+        ],
+        answer: "국민"
+      },
+      {
+        question: "헌법에 따라 국회의원은 몇 년마다 선출되는가?",
+        options: ["2년", "3년", "4년", "5년"],
+        answer: "4년"
+      },
+      {
+        question: "헌법상 대통령의 임기는?",
+        options: [
+          "4년, 1회 연임 가능",
+          "5년, 중임 불가",
+          "5년, 1회 연임 가능",
+          "6년, 중임 불가"
+        ],
+        answer: "5년, 중임 불가"
+      },
+      {
+        question: "헌법에 명시된 기본권이 아닌 것은?",
+        options: [
+          "인간의 존엄과 가치",
+          "재산권",
+          "군사 재판의 판결권",
+          "행복추구권"
+        ],
+        answer: "군사 재판의 판결권"
+      },
+      {
+        question: "헌법 제10조는 무엇을 보장하는가?",
+        options: [
+          "국방의 의무",
+          "재산권의 보장",
+          "인간의 존엄과 행복추구권",
+          "국민투표권"
+        ],
+        answer: "인간의 존엄과 행복추구권"
+      },
+      {
+        question: "헌법상 국회의 정기회는 매년 몇 월에 개회되는가?",
+        options: ["1월", "3월", "6월", "9월"],
+        answer: "9월"
+      },
+      {
+        question: "헌법에 따라 국무총리는 누가 임명하는가?",
+        options: ["국회", "대통령", "대법원장", "국무회의"],
+        answer: "대통령"
+      },
+      {
+        question: "헌법상 국가는 어떤 경제질서를 기반으로 하는가?",
+        options: [
+          "자유시장경제",
+          "계획경제",
+          "사회적 시장경제",
+          "중앙통제경제"
+        ],
+        answer: "사회적 시장경제"
+      },
+      {
+        question: "국회의원 수는 헌법상 어떻게 정하는가?",
+        options: [
+          "100명으로 고정",
+          "200명 이상",
+          "250명 이하",
+          "300명 이상"
+        ],
+        answer: "200명 이상"
+      },
+      {
+        question: "헌법재판소 재판관은 몇 명인가?",
+        options: ["6명", "7명", "9명", "11명"],
+        answer: "9명"
+      },
+      {
+        question: "헌법에 따라 긴급명령권은 누가 행사할 수 있는가?",
+        options: ["대통령", "국회", "국무총리", "국무회의"],
+        answer: "대통령"
+      },
+      {
+        question: "헌법에서 정한 5대 국정이념 중 하나가 아닌 것은?",
+        options: [
+          "자유민주주의",
+          "법치주의",
+          "사회주의",
+          "복지국가주의"
+        ],
+        answer: "사회주의"
+      },
+      {
+        question: "헌법상 대통령의 권한 중 아닌 것은?",
+        options: [
+          "국군통수권",
+          "법률안 거부권",
+          "사법권 행사",
+          "조약 체결권"
+        ],
+        answer: "사법권 행사"
+      },
+      {
+        question: "헌법상 공무원은 누구를 위한 존재인가?",
+        options: [
+          "정부",
+          "국회",
+          "국민 전체",
+          "대통령"
+        ],
+        answer: "국민 전체"
+      },
+      {
+        question: "헌법 제20조는 어떤 자유를 보장하는가?",
+        options: [
+          "언론의 자유",
+          "종교의 자유",
+          "직업 선택의 자유",
+          "통신의 자유"
+        ],
+        answer: "종교의 자유"
+      },
+      {
+        question: "헌법에 명시된 국민의 의무가 아닌 것은?",
+        options: [
+          "국방의 의무",
+          "근로의 의무",
+          "교육의 의무",
+          "정치 활동의 의무"
+        ],
+        answer: "정치 활동의 의무"
+      },
+      {
+        question: "헌법 제11조는 무엇에 대한 평등을 규정하는가?",
+        options: [
+          "법 앞의 평등",
+          "경제적 평등",
+          "성별 평등",
+          "직업 평등"
+        ],
+        answer: "법 앞의 평등"
+      },
+      {
+        question: "헌법상 교육은 어떤 이념에 따라야 하는가?",
+        options: [
+          "공산주의 이념",
+          "개인주의 이념",
+          "민주주의 이념",
+          "자본주의 이념"
+        ],
+        answer: "민주주의 이념"
+      },
+      {
+        question: "헌법 제12조는 어떤 권리를 보호하는가?",
+        options: [
+          "생명권과 신체의 자유",
+          "근로의 권리",
+          "재산권",
+          "환경권"
+        ],
+        answer: "생명권과 신체의 자유"
+      }
+    ];
+
+    let currentQuiz = 0;
+    let score = 0;
+
+    const questionEl = document.getElementById("question");
+    const optionsEl = document.getElementById("options");
+    const nextBtn = document.getElementById("next-btn");
+
+    function loadQuiz() {
+      const quiz = quizData[currentQuiz];
+      questionEl.innerText = `${currentQuiz + 1}. ${quiz.question}`;
+      optionsEl.innerHTML = "";
+      nextBtn.style.display = "none";
+
+      quiz.options.forEach(option => {
+        const btn = document.createElement("button");
+        btn.innerText = option;
+        btn.classList.add("option");
+        btn.onclick = () => selectAnswer(btn, quiz.answer);
+        optionsEl.appendChild(btn);
+      });
+    }
+
+    function selectAnswer(selectedBtn, correctAnswer) {
+      const buttons = document.querySelectorAll(".option");
+      buttons.forEach(btn => {
+        btn.disabled = true;
+        if (btn.innerText === correctAnswer) {
+          btn.style.backgroundColor = "#4CAF50";
+        } else if (btn === selectedBtn) {
+          btn.style.backgroundColor = "#f44336";
+        }
+      });
+
+      if (selectedBtn.innerText === correctAnswer) {
+        score++;
+      }
+
+      nextBtn.style.display = "inline-block";
+    }
+
+    nextBtn.addEventListener("click", () => {
+      currentQuiz++;
+      if (currentQuiz < quizData.length) {
+        loadQuiz();
+      } else {
+        showResult();
+      }
+    });
+
+    function showResult() {
+      document.getElementById("quiz-container").innerHTML = `
+        <h2>퀴즈 완료!</h2>
+        <p>총 ${quizData.length}문제 중 ${score}문제 맞혔어요.</p>
+        <button onclick="location.reload()">다시 시작</button>
+      `;
+    }
+
+    loadQuiz();
+  </script>
+</body>
+</html>
